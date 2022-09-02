@@ -1,3 +1,5 @@
+import { AppRoutes } from './routes/app.routes';
+
 import { Header } from './components';
 
 import { ThemeProvider } from 'styled-components';
@@ -8,6 +10,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Header />
+      <AppRoutes />
     </ThemeProvider>
   );
 }
