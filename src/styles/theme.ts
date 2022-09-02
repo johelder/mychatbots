@@ -2,7 +2,7 @@ export const theme = {
   colors: {
     primary: {
       background: '#E5E5E5',
-      light: '##F8FBFB',
+      light: '#F8FBFB',
     },
     secondary: {
       dark_blue: '#1A2437',
@@ -10,10 +10,24 @@ export const theme = {
       yellow: '#F9B42F',
     },
     texts: {
-      text_300: '#8CA0B3',
-      text_400: '#738192',
-      text_700: '#52636C',
-      text_800: '#56616E',
+      gray_300: '#8CA0B3',
+      gray_400: '#738192',
+      gray_700: '#52636C',
+      gray_800: '#56616E',
     },
+    borders: {
+      gray_200: '#D2DFE6',
+    },
+  },
+
+  fonts: {
+    primary: 'Nunito Sans',
+  },
+
+  breakpoints: {
+    sm: 'min-width: 414px',
+    md: 'min-width: 768px',
+    lg: 'min-width: 1024px',
+    xl: 'min-width: 1366px',
   },
 };
