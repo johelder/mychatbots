@@ -27,4 +27,8 @@ export const GlobalStyles = createGlobalStyle`
       outline-color: ${({ theme }) => theme.colors.secondary.light_blue};
     }
   }
+
+  ul {
+    list-style: none;
+  }
 `;
