@@ -43,6 +43,10 @@ export const CardHeader = styled.header<IBotCardProps>`
     activeType === 'blocks'
       ? css`
           margin-left: 1rem;
+
+          @media (${theme.breakpoints.lg}) {
+            margin: 0;
+          }
         `
       : css`
           background: ${theme.colors.primary.background};
