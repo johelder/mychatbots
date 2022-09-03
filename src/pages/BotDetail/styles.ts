@@ -21,7 +21,8 @@ export const ProfileInfo = styled.div`
   align-items: center;
 
   img {
-    max-width: 5.6rem;
+    width: 5.6rem;
+    height: 5.6rem;
     border-radius: 50%;
   }
 `;
