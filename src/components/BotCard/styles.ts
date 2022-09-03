@@ -16,6 +16,10 @@ export const Container = styled.section<IBotCardProps>`
           padding: 0.8rem 0 3.8rem;
 
           box-shadow: 0px 2px 12px rgba(96, 123, 153, 0.15);
+
+          @media (${theme.breakpoints.lg}) {
+            padding: 0.8rem 2rem 4.2rem;
+          }
         `
       : css`
           display: grid;
