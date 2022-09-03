@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.footer`
+  width: 100%;
+  text-align: center;
+
   p {
     font-family: ${({ theme }) => theme.fonts.primary};
     font-size: 1.2rem;
