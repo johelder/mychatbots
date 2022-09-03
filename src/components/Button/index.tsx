@@ -1,12 +1,13 @@
+import { ButtonHTMLAttributes } from 'react';
 import * as S from './styles';
 
-interface IButtonProps {
+interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   title: string;
 }
 
-export const Button = ({ title }: IButtonProps) => {
+export const Button = ({ title, ...rest }: IButtonProps) => {
   return (
-    <S.Container type="button">
+    <S.Container type="button" {...rest}>
       <span>{title}</span>
     </S.Container>
   );
