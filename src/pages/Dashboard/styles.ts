@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components';
 
+interface IBotCardListProps {
+  activeType: 'blocks' | 'list';
+}
+
 export const Container = styled.main`
   max-width: 124rem;
   height: 100%;
@@ -92,6 +96,18 @@ export const Separator = styled.hr`
   margin: 4rem 0;
 
   border-color: ${({ theme }) => theme.colors.borders.gray_200};
+`;
+
+export const BotCardList = styled.ul<IBotCardListProps>`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: ${({ activeType }) => (activeType === 'blocks' ? '2.4rem' : '1rem')};
+
+  margin-top: 1.6rem;
+
+  flex-direction: ${({ activeType }) =>
+    activeType === 'blocks' ? 'row' : 'column'};
 `;
 
 export const AddBotButton = styled.button`
