@@ -67,12 +67,3 @@ export const FavoritesSection = styled.article`
     color: ${({ theme }) => theme.colors.texts.dark_blue_200};
   }
 `;
-
-export const BotsCardsContainer = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 2.4rem;
-
-  margin-top: 1.6rem;
-`;

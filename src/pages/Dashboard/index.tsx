@@ -1,5 +1,5 @@
-import { Button, OrganizeListTypeButton, BotCard } from '../../components';
-import { TBot } from '../../components/BotCard';
+import { Button, OrganizeListTypeButton, BotCardList } from '../../components';
+import { useListType } from '../../hooks/listType';
 
 import * as S from './styles';
 
@@ -35,6 +35,8 @@ const favoritesMock = [
 ];
 
 export const Dashboard = () => {
+  const { activeListType, setActiveListType } = useListType();
+
   return (
     <S.Container>
       <S.SectionHeader>
@@ -49,8 +51,16 @@ export const Dashboard = () => {
             </S.SortButtonsContainer>
 
             <div>
-              <OrganizeListTypeButton type="blocks" isActive={true} />
-              <OrganizeListTypeButton type="list" isActive={false} />
+              <OrganizeListTypeButton
+                type="blocks"
+                isActive={activeListType === 'blocks'}
+                handleActive={() => setActiveListType('blocks')}
+              />
+              <OrganizeListTypeButton
+                type="list"
+                isActive={activeListType === 'list'}
+                handleActive={() => setActiveListType('list')}
+              />
             </div>
           </S.ButtonsContainer>
         </S.ActionsContainer>
@@ -59,14 +69,7 @@ export const Dashboard = () => {
       {!!favoritesMock.length && (
         <S.FavoritesSection>
           <h3>Favorites</h3>
-
-          <S.BotsCardsContainer>
-            {favoritesMock.map((bot: TBot) => (
-              <li key={bot.id}>
-                <BotCard bot={bot} type="blocks" isFavorite={true} />
-              </li>
-            ))}
-          </S.BotsCardsContainer>
+          <BotCardList botsList={favoritesMock} />
         </S.FavoritesSection>
       )}
     </S.Container>
