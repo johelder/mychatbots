@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.main`
   max-width: 124rem;
@@ -78,4 +78,76 @@ export const BotInfoLabel = styled.p`
   line-height: 2.4rem;
 
   margin-top: 1.6rem;
+`;
+
+export const SectionInformation = styled.section`
+  ${({ theme }) => css`
+    width: 100%;
+    display: flex;
+
+    flex-direction: column;
+
+    @media (${theme.breakpoints.lg}) {
+      gap: 4rem;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  `}
+`;
+
+export const BotInformationContainer = styled.article`
+  ${({ theme }) => css`
+    width: 100%;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+
+    @media (${theme.breakpoints.lg}) {
+      grid-template-columns: 2fr 1fr 2fr;
+      grid-template-rows: 1fr 1fr;
+
+      section.activesUsers {
+        grid-column: 2/4;
+        grid-row: 1/2;
+      }
+
+      section.receivedMessages {
+        grid-column: 1/3;
+        grid-row: 2/3;
+      }
+    }
+  `}
+`;
+
+export const AccountStatusContainer = styled.article`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const AccountStatusContent = styled.div`
+  margin-top: 5rem;
+`;
+
+export const Label = styled.p`
+  font-family: ${({ theme }) => theme.fonts.primary};
+  font-size: 1.6rem;
+  font-weight: 400;
+
+  text-align: center;
+
+  color: ${({ theme }) => theme.colors.texts.gray_300};
+`;
+
+export const Status = styled.strong`
+  display: block;
+  font-family: ${({ theme }) => theme.fonts.primary};
+  font-size: 2.4rem;
+  font-weight: 700;
+
+  text-align: center;
+
+  color: ${({ theme }) => theme.colors.texts.gray_800};
+
+  margin-bottom: 2.4rem;
 `;
