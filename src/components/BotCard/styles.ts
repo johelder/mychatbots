@@ -15,7 +15,7 @@ export const Container = styled.section<IBotCardProps>`
 
           padding: 0.8rem 0 3.8rem;
 
-          box-shadow: 0px 2px 12px rgba(96, 123, 153, 0.15);
+          box-shadow: 0px 2px 12px ${theme.colors.shadows.primary};
 
           @media (${theme.breakpoints.lg}) {
             padding: 0.8rem 2rem 4.2rem;
@@ -64,7 +64,7 @@ export const CardBody = styled.div<IBotCardProps>`
     border-radius: 50%;
   }
 
-  ${({ activeType }) =>
+  ${({ activeType, theme }) =>
     activeType === 'blocks'
       ? css`
           flex-direction: column;
@@ -85,7 +85,7 @@ export const CardBody = styled.div<IBotCardProps>`
           justify-content: space-between;
           padding: 1.6rem 2.4rem;
 
-          box-shadow: 0px 2px 12px rgba(96, 123, 153, 0.15);
+          box-shadow: 0px 2px 12px ${theme.colors.shadows.primary};
           background-color: ${({ theme }) => theme.colors.primary.light};
 
           border-radius: 0.7rem;

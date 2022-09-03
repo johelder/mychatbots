@@ -19,6 +19,9 @@ export const theme = {
     borders: {
       gray_200: '#D2DFE6',
     },
+    shadows: {
+      primary: 'rgba(96, 123, 153, 0.15)',
+    },
   },
 
   fonts: {
