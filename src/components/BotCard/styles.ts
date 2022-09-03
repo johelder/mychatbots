@@ -8,16 +8,25 @@ export const Container = styled.section<IBotCardProps>`
   background-color: ${({ theme }) => theme.colors.primary.light};
   border-radius: 0.7rem;
 
+  a {
+    text-decoration: none;
+  }
+
   ${({ theme, activeType }) =>
     activeType === 'blocks'
       ? css`
-          width: fit-content;
+          display: flex;
+          flex-direction: column;
 
+          width: 14.4rem;
+          height: 19.2rem;
           padding: 0.8rem 0 3.8rem;
 
           box-shadow: 0px 2px 12px ${theme.colors.shadows.primary};
 
           @media (${theme.breakpoints.lg}) {
+            width: 18.8rem;
+
             padding: 0.8rem 2rem 4.2rem;
           }
         `
@@ -60,12 +69,14 @@ export const CardBody = styled.div<IBotCardProps>`
   display: flex;
   align-items: center;
 
-  div {
-    display: flex;
-  }
-
   img {
     border-radius: 50%;
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+
+  div {
+    display: flex;
   }
 
   ${({ activeType, theme }) =>
@@ -74,45 +85,53 @@ export const CardBody = styled.div<IBotCardProps>`
           flex-direction: column;
           padding: 0 2rem;
 
+          img {
+            margin: 0.2rem 0 1.6rem;
+          }
+
           div {
             flex-direction: column;
             align-items: center;
-          }
-
-          img {
-            max-width: 5.5rem;
-            margin: 0.2rem 0 1.6rem;
           }
         `
       : css`
           flex-direction: row;
           justify-content: space-between;
-          padding: 1.6rem 2.4rem;
+          padding: 2rem 2.4rem;
 
           box-shadow: 0px 2px 12px ${theme.colors.shadows.primary};
           background-color: ${({ theme }) => theme.colors.primary.light};
 
           border-radius: 0.7rem;
 
+          img {
+            width: 3rem;
+            height: 3rem;
+          }
+
           div {
             flex-direction: row;
             align-items: center;
-          }
-
-          img {
-            max-width: 2.8rem;
           }
         `}
 `;
 
 export const Name = styled.strong<IBotCardProps>`
-  font-family: ${({ theme }) => theme.fonts.primary};
-  font-size: 1.6rem;
-  font-weight: 700;
+  ${({ theme, activeType }) => css`
+    font-family: ${({ theme }) => theme.fonts.primary};
+    font-size: 1.2rem;
+    font-weight: 700;
 
-  color: ${({ theme }) => theme.colors.texts.gray_700};
+    text-align: center;
 
-  margin-left: ${({ activeType }) => activeType === 'list' && '0.8rem'};
+    color: ${theme.colors.texts.gray_700};
+
+    margin-left: ${activeType === 'list' && '0.8rem'};
+
+    @media (${theme.breakpoints.lg}) {
+      font-size: 1.6rem;
+    }
+  `}
 `;
 
 export const Builder = styled.p`
@@ -128,6 +147,8 @@ export const CreatedAt = styled.span`
     font-family: ${({ theme }) => theme.fonts.primary};
     font-size: 1.2rem;
     font-weight: 400;
+
+    text-align: end;
 
     color: ${({ theme }) => theme.colors.texts.gray_400};
     @media (${theme.breakpoints.lg}) {
