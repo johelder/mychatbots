@@ -1,5 +1,6 @@
 import { Header } from './Header';
-import { SortButton } from './SortButton';
+import { Button } from './Button';
 import { OrganizeListTypeButton } from './OrganizeListTypeButton';
+import BotCard from './BotCard';
 
-export { Header, SortButton, OrganizeListTypeButton };
+export { Header, Button, OrganizeListTypeButton, BotCard };
