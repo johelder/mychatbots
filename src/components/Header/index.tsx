@@ -5,7 +5,7 @@ import * as S from './styles';
 export const Header = () => {
   return (
     <S.Container>
-      <img src={Logo} />
+      <img src={Logo} alt="Take Blip Logo" />
     </S.Container>
   );
 };
