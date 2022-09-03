@@ -1,5 +1,7 @@
 import { memo } from 'react';
 
+import { useListType } from '../../hooks/listType';
+
 import { TiStarFullOutline, TiStarOutline } from 'react-icons/ti';
 
 import { useTheme } from 'styled-components';
@@ -15,16 +17,16 @@ export type TBot = {
 
 interface IBotCard {
   bot: TBot;
-  type: 'blocks' | 'list';
   isFavorite: boolean;
 }
 
-const BotCard = ({ bot, type, isFavorite }: IBotCard) => {
+const BotCard = ({ bot, isFavorite }: IBotCard) => {
   const theme = useTheme();
+  const { activeListType } = useListType();
 
   return (
-    <S.Container type={type}>
-      <S.CardHeader type={type}>
+    <S.Container activeType={activeListType}>
+      <S.CardHeader activeType={activeListType}>
         <button type="button">
           {isFavorite ? (
             <TiStarFullOutline
@@ -37,15 +39,15 @@ const BotCard = ({ bot, type, isFavorite }: IBotCard) => {
         </button>
       </S.CardHeader>
 
-      <S.CardBody type={type}>
+      <S.CardBody activeType={activeListType}>
         <div>
           <img src={bot.avatar} alt="Bot Avatar" />
-          <S.Name type={type}>{bot.name}</S.Name>
+          <S.Name activeType={activeListType}>{bot.name}</S.Name>
         </div>
 
-        {true && <S.Builder>{bot.builder}</S.Builder>}
-
-        {false && (
+        {activeListType === 'blocks' ? (
+          <S.Builder>{bot.builder}</S.Builder>
+        ) : (
           <S.CreatedAt>
             Created at <time>{bot.createdAt}</time>
           </S.CreatedAt>

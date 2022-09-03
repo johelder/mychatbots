@@ -1,15 +1,15 @@
 import styled, { css } from 'styled-components';
 
 interface IBotCardProps {
-  type: 'blocks' | 'list';
+  activeType: 'blocks' | 'list';
 }
 
 export const Container = styled.section<IBotCardProps>`
   background-color: ${({ theme }) => theme.colors.primary.light};
   border-radius: 0.7rem;
 
-  ${({ theme, type }) =>
-    type === 'blocks'
+  ${({ theme, activeType }) =>
+    activeType === 'blocks'
       ? css`
           width: fit-content;
 
@@ -35,8 +35,8 @@ export const CardHeader = styled.header<IBotCardProps>`
     border: none;
   }
 
-  ${({ theme, type }) =>
-    type === 'blocks'
+  ${({ theme, activeType }) =>
+    activeType === 'blocks'
       ? css`
           margin-left: 1rem;
         `
@@ -60,8 +60,8 @@ export const CardBody = styled.div<IBotCardProps>`
     border-radius: 50%;
   }
 
-  ${({ type }) =>
-    type === 'blocks'
+  ${({ activeType }) =>
+    activeType === 'blocks'
       ? css`
           flex-direction: column;
           padding: 0 2rem;
@@ -104,7 +104,7 @@ export const Name = styled.strong<IBotCardProps>`
 
   color: ${({ theme }) => theme.colors.texts.gray_700};
 
-  margin-left: ${({ type }) => type === 'list' && '0.8rem'};
+  margin-left: ${({ activeType }) => activeType === 'list' && '0.8rem'};
 `;
 
 export const Builder = styled.p`
