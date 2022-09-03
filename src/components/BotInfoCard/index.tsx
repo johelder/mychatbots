@@ -9,7 +9,7 @@ import * as S from './styles';
 interface IBotInfoCard {
   onlyInfo?: boolean;
   iconType?: 'activesUsers' | 'messagesSent' | 'receivedMessages';
-  title?: string;
+  title?: number;
   description?: string;
   children?: ReactNode;
 }
