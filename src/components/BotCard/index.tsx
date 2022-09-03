@@ -5,7 +5,8 @@ import { TiStarFullOutline, TiStarOutline } from 'react-icons/ti';
 import { useTheme } from 'styled-components';
 import * as S from './styles';
 
-type TBot = {
+export type TBot = {
+  id: string;
   avatar: string;
   name: string;
   builder: string;
@@ -42,9 +43,9 @@ const BotCard = ({ bot, type, isFavorite }: IBotCard) => {
           <S.Name type={type}>{bot.name}</S.Name>
         </div>
 
-        {false && <S.Builder>{bot.builder}</S.Builder>}
+        {true && <S.Builder>{bot.builder}</S.Builder>}
 
-        {true && (
+        {false && (
           <S.CreatedAt>
             Created at <time>{bot.createdAt}</time>
           </S.CreatedAt>

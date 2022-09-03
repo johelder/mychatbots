@@ -13,8 +13,7 @@ export const Container = styled.section<IBotCardProps>`
       ? css`
           width: fit-content;
 
-          padding: 0.8rem 0.8rem 3.8rem;
-          margin: 1.6rem 0;
+          padding: 0.8rem 0 3.8rem;
 
           box-shadow: 0px 2px 12px rgba(96, 123, 153, 0.15);
         `
@@ -37,11 +36,14 @@ export const CardHeader = styled.header<IBotCardProps>`
   }
 
   ${({ theme, type }) =>
-    type === 'list' &&
-    css`
-      background: ${theme.colors.primary.background};
-      justify-content: center;
-    `}
+    type === 'blocks'
+      ? css`
+          margin-left: 1rem;
+        `
+      : css`
+          background: ${theme.colors.primary.background};
+          justify-content: center;
+        `}
 `;
 
 export const CardBody = styled.div<IBotCardProps>`
