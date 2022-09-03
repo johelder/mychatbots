@@ -8,7 +8,7 @@ export const Container = styled.ul<IContainerProps>`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 2.4rem;
+  gap: ${({ activeType }) => (activeType === 'blocks' ? '2.4rem' : '1rem')};
 
   margin-top: 1.6rem;
 
