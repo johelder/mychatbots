@@ -14,7 +14,7 @@ export const Container = styled.button<IContainerProps>`
     margin-left: 0.6rem;
 
     svg {
-      font-size: 2.6rem;
+      font-size: 2.4rem;
       color: ${isActive
         ? theme.colors.texts.gray_800
         : theme.colors.borders.gray_200};
