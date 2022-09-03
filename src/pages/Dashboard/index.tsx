@@ -1,6 +1,8 @@
 import { Button, OrganizeListTypeButton, BotCardList } from '../../components';
 import { useListType } from '../../hooks/listType';
 
+import { FiPlus as PlusIcon } from 'react-icons/fi';
+
 import * as S from './styles';
 
 const favoritesMock = [
@@ -70,8 +72,19 @@ export const Dashboard = () => {
         <S.FavoritesSection>
           <h3>Favorites</h3>
           <BotCardList botsList={favoritesMock} />
+
+          <S.Separator />
         </S.FavoritesSection>
       )}
+
+      <BotCardList botsList={favoritesMock} />
+      <BotCardList botsList={favoritesMock} />
+
+      <S.AddBotButton>
+        <span>
+          <PlusIcon />
+        </span>
+      </S.AddBotButton>
     </S.Container>
   );
 };
