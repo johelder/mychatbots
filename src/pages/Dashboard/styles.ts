@@ -44,17 +44,25 @@ export const ActionsContainer = styled.div`
 `;
 
 export const SearchInput = styled.input`
-  min-width: 33.2rem;
-  height: 4rem;
-  font-family: ${({ theme }) => theme.fonts.primary};
-  font-size: 1.4rem;
-  font-weight: 600;
+  ${({ theme }) => css`
+    min-width: 33.2rem;
 
-  padding: 1rem 1.2rem;
-  margin: 1rem;
+    margin: 1rem 0;
 
-  border-radius: 0.8rem;
-  border: 0.1rem solid ${({ theme }) => theme.colors.borders.gray_200};
+    height: 4rem;
+    font-family: ${({ theme }) => theme.fonts.primary};
+    font-size: 1.4rem;
+    font-weight: 600;
+
+    padding: 1rem 1.2rem;
+
+    border-radius: 0.8rem;
+    border: 0.1rem solid ${({ theme }) => theme.colors.borders.gray_200};
+
+    @media (${theme.breakpoints.lg}) {
+      margin: 1rem;
+    }
+  `}
 `;
 
 export const ButtonsContainer = styled.div`
