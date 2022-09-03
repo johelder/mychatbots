@@ -10,6 +10,7 @@ export const theme = {
       yellow: '#F9B42F',
     },
     texts: {
+      dark_blue_200: '#607B99',
       gray_300: '#8CA0B3',
       gray_400: '#738192',
       gray_700: '#52636C',
