@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 import activesUsersIcon from '../../assets/activesUsersIcon.svg';
 import messagesSentIcon from '../../assets/messagesSentIcon.svg';
-import receivedMessagesIcon from '../../assets/activesUsersIcon.svg';
+import receivedMessagesIcon from '../../assets/receivedMessagesIcon.svg';
 
 import * as S from './styles';
 
@@ -22,18 +22,33 @@ export const BotInfoCard = ({
   children,
 }: IBotInfoCard) => {
   const iconSwitcher = {
-    activesUsers: activesUsersIcon,
-    messagesSent: messagesSentIcon,
-    receivedMessages: receivedMessagesIcon,
+    activesUsers: {
+      icon: activesUsersIcon,
+      alternative_text: 'A icon of a user',
+    },
+    messagesSent: {
+      icon: messagesSentIcon,
+      alternative_text: 'A icon of messages sent',
+    },
+    receivedMessages: {
+      icon: receivedMessagesIcon,
+      alternative_text: 'A icon of received messages',
+    },
   };
 
   return (
-    <S.Container>
+    <S.Container className={iconType}>
       {onlyInfo ? (
         children
       ) : (
         <S.Content>
-          <img src={iconType && iconSwitcher[iconType]} alt="Card Info Icon" />
+          {iconType && (
+            <img
+              src={iconSwitcher[iconType].icon}
+              alt={iconSwitcher[iconType].alternative_text}
+            />
+          )}
+
           <S.DescriptionContainer>
             <S.Title>{title}</S.Title>
             <S.Description>{description}</S.Description>
