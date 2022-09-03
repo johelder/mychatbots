@@ -2,9 +2,14 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.button`
   ${({ theme }) => css`
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background-color: ${theme.colors.secondary.light_blue};
 
-    padding: 1rem;
+    padding: 1rem 1.6rem;
     border-radius: 0.8rem;
     border: none;
 
