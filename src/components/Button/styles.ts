@@ -4,7 +4,7 @@ export const Container = styled.button`
   ${({ theme }) => css`
     background-color: ${theme.colors.secondary.light_blue};
 
-    padding: 1rem 1.6rem;
+    padding: 1rem;
     border-radius: 0.8rem;
     border: none;
 
