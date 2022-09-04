@@ -19,13 +19,22 @@ export interface IFormattedBot extends TBot {
   id: string;
 }
 
-const CURRENT_TAKE = 10;
+export type TPageStatus = 'idle' | 'loading' | 'error' | 'resolved';
+
+const NUMBER_ITEMS_TO_TAKE = 10;
 
 export const Dashboard = () => {
+  const [pageStatus, setPageStatus] = useState<TPageStatus>('idle');
   const [bots, setBots] = useState<IFormattedBot[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentOrderby, setCurrentOrderBy] = useState('');
   const [currentSkip, setCurrentSkip] = useState(0);
+
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const shouldLoadMoreDataRef = useRef(true);
+
+  const { activeListType, setActiveListType } = useListType();
+  const { favorites } = useFavorites();
 
   const filteredBots = useMemo(() => {
     return searchTerm.length > 0
@@ -34,13 +43,6 @@ export const Dashboard = () => {
         )
       : [];
   }, [bots, searchTerm]);
-
-  const sentinelRef = useRef<HTMLDivElement>(null);
-  const shouldLoadMoreDataRef = useRef(true);
-
-  const { activeListType, setActiveListType } = useListType();
-
-  const { favorites } = useFavorites();
 
   const handleOrderBy = (orderBy: string) => {
     if (orderBy !== currentOrderby) {
@@ -58,18 +60,22 @@ export const Dashboard = () => {
       return;
     }
 
+    setPageStatus('loading');
+
     const response = await IntelligentContacts.getBots({
       orderBy: currentOrderby,
       skip: currentSkip,
-      take: CURRENT_TAKE,
+      take: NUMBER_ITEMS_TO_TAKE,
     });
 
     if (!response.ok) {
+      setPageStatus('error');
       return;
     }
 
     if (!response.data.length) {
       shouldLoadMoreDataRef.current = false;
+      setPageStatus('idle');
       return;
     }
 
@@ -80,12 +86,13 @@ export const Dashboard = () => {
 
     setBots(prevBots => [...prevBots, ...formattedBots]);
     shouldLoadMoreDataRef.current = true;
+    setPageStatus('resolved');
   }, [currentOrderby, currentSkip]);
 
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) {
-        setCurrentSkip(prevSkip => prevSkip + CURRENT_TAKE);
+        setCurrentSkip(prevSkip => prevSkip + NUMBER_ITEMS_TO_TAKE);
       }
     });
 
@@ -100,6 +107,14 @@ export const Dashboard = () => {
     getBots();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentOrderby, currentSkip]);
+
+  if (pageStatus === 'error') {
+    return (
+      <S.ErrorContainer>
+        <span>Failed to load. You can try again later! 🤖 </span>
+      </S.ErrorContainer>
+    );
+  }
 
   return (
     <S.Container>
@@ -173,6 +188,12 @@ export const Dashboard = () => {
             </li>
           ))}
         </S.BotCardList>
+      )}
+
+      {pageStatus === 'loading' && (
+        <S.LoadingContainer>
+          <S.LoadingIcon />
+        </S.LoadingContainer>
       )}
 
       <div ref={sentinelRef} style={{ height: 100 }} />
