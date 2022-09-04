@@ -1,4 +1,12 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+import { TbFidgetSpinner } from 'react-icons/tb';
+
+const loadingAnimation = keyframes`
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 interface IBotCardListProps {
   activeType: 'blocks' | 'list';
@@ -141,4 +149,37 @@ export const AddBotButton = styled.button`
       font-size: 3.2rem;
     }
   }
+`;
+
+export const ErrorContainer = styled.main`
+  width: 100%;
+  text-align: center;
+
+  span {
+    display: block;
+    font-family: ${({ theme }) => theme.fonts.primary};
+    font-size: 1.8rem;
+    font-weight: 600;
+
+    margin-top: 10rem;
+
+    color: ${({ theme }) => theme.colors.secondary.dark_blue};
+  }
+`;
+
+export const LoadingContainer = styled.div`
+  width: 100%;
+
+  margin-top: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const LoadingIcon = styled(TbFidgetSpinner)`
+  font-size: 4rem;
+  color: ${({ theme }) => theme.colors.secondary.light_blue};
+
+  animation: ${loadingAnimation} 1s infinite linear;
 `;
