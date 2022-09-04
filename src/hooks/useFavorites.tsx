@@ -20,7 +20,7 @@ interface IFavoritesProviderProps {
 
 const FavoritesContext = createContext({} as IFavoritesContext);
 
-const storageKey = '@mychatbots:favorites';
+const STORAGE_KEY = '@mychatbots:favorites';
 
 const FavoritesProvider = ({ children }: IFavoritesProviderProps) => {
   const [favorites, setFavorites] = useState<IFormattedBot[]>([]);
@@ -35,7 +35,7 @@ const FavoritesProvider = ({ children }: IFavoritesProviderProps) => {
       if (!foundedFavorite) {
         const updatedFavorites = [...mutableFavorites, botToAdd];
         setFavorites(updatedFavorites);
-        localStorage.setItem(storageKey, JSON.stringify(updatedFavorites));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedFavorites));
         return;
       }
 
@@ -44,14 +44,15 @@ const FavoritesProvider = ({ children }: IFavoritesProviderProps) => {
       );
 
       setFavorites(updatedFavorites);
-      localStorage.setItem(storageKey, JSON.stringify(updatedFavorites));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedFavorites));
     },
     [favorites],
   );
 
   const isFavorite = useCallback(
     (bot: IFormattedBot) => {
-      const isFavorite = favorites.find(
+      const mutableFavorites = [...favorites];
+      const isFavorite = mutableFavorites.find(
         favoriteBot => favoriteBot.name === bot.name,
       );
 
@@ -60,11 +61,9 @@ const FavoritesProvider = ({ children }: IFavoritesProviderProps) => {
     [favorites],
   );
 
-  localStorage;
-
   useEffect(() => {
     const loadStorageFavorites = () => {
-      const storageFavorites = localStorage.getItem(storageKey);
+      const storageFavorites = localStorage.getItem(STORAGE_KEY);
 
       if (storageFavorites) {
         const parsedFavorites = JSON.parse(storageFavorites);

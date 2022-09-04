@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { FavoritesProvider } from './favorites';
-import { ListTypeContextProvider } from './listType';
+import { FavoritesProvider } from './useFavorites';
+import { ListTypeContextProvider } from './useListType';
 
 interface IAppProviderProps {
   children: ReactNode;
