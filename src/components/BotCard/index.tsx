@@ -1,16 +1,18 @@
 import { memo, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useListType } from '../../hooks/listType';
+import { useListType } from '../../hooks/useListType';
+import { useFavorites } from '../../hooks/useFavorites';
 
 import { TiStarFullOutline, TiStarOutline } from 'react-icons/ti';
 
+import { IFormattedBot } from '../../pages/Dashboard';
+
+import { formatName } from '../../utils/formatName';
+import { formatDate } from '../../utils/formatDate';
+
 import { useTheme } from 'styled-components';
 import * as S from './styles';
-import { formatName } from '../../utils/formatName';
-import { useFavorites } from '../../hooks/favorites';
-import { IFormattedBot } from '../../pages/Dashboard';
-import { formatDate } from '../../utils/formatDate';
 
 export type TBot = {
   name: string;
@@ -38,7 +40,11 @@ const BotCard = ({ bot }: IBotCard) => {
   return (
     <S.Container activeType={activeListType}>
       <S.CardHeader activeType={activeListType}>
-        <button type="button" onClick={handleToggleFavorites}>
+        <button
+          type="button"
+          onClick={handleToggleFavorites}
+          data-testid="favorite-button"
+        >
           {isFavorite(bot) ? (
             <TiStarFullOutline
               size={22}
@@ -49,20 +55,23 @@ const BotCard = ({ bot }: IBotCard) => {
           )}
         </button>
       </S.CardHeader>
-      <Link to={`/${formattedBotName}/details`}>
+      <Link to={`/${formattedBotName}/details`} data-testid="bot-redirection">
         <S.CardBody activeType={activeListType}>
           <div>
             <img
               src="https://avatars.dicebear.com/api/bottts/your-custom-seed.svg"
               alt="Bot Avatar"
+              data-testid="bot-avatar"
             />
-            <S.Name activeType={activeListType}>{bot.name}</S.Name>
+            <S.Name activeType={activeListType} data-testid="bot-name">
+              {bot.name}
+            </S.Name>
           </div>
 
           {activeListType === 'blocks' ? (
-            <S.Builder>{bot.type}</S.Builder>
+            <S.Builder data-testid="bot-builder">{bot.type}</S.Builder>
           ) : (
-            <S.CreatedAt>
+            <S.CreatedAt data-testid="bot-date-create">
               Created at <time>{formatDate(bot.created)}</time>
             </S.CreatedAt>
           )}
