@@ -181,5 +181,5 @@ export const LoadingIcon = styled(TbFidgetSpinner)`
   font-size: 4rem;
   color: ${({ theme }) => theme.colors.secondary.light_blue};
 
-  animation: ${loadingAnimation} 1s infinite linear;
+  animation: ${loadingAnimation} 600ms infinite linear;
 `;
