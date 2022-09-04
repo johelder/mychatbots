@@ -8,6 +8,9 @@ import { TiStarFullOutline, TiStarOutline } from 'react-icons/ti';
 import { useTheme } from 'styled-components';
 import * as S from './styles';
 import { formatName } from '../../utils/formatName';
+import { useFavorites } from '../../hooks/favorites';
+import { IFormattedBot } from '../../pages/Dashboard';
+import { formatDate } from '../../utils/formatDate';
 
 export type TBot = {
   name: string;
@@ -16,23 +19,27 @@ export type TBot = {
 };
 
 interface IBotCard {
-  bot: TBot;
-  isFavorite: boolean;
+  bot: IFormattedBot;
 }
 
-const BotCard = ({ bot, isFavorite }: IBotCard) => {
+const BotCard = ({ bot }: IBotCard) => {
   const theme = useTheme();
   const { activeListType } = useListType();
+  const { isFavorite, toggleFavorites } = useFavorites();
 
   const formattedBotName = useMemo(() => {
     return formatName(bot.name);
   }, [bot.name]);
 
+  const handleToggleFavorites = () => {
+    toggleFavorites(bot);
+  };
+
   return (
     <S.Container activeType={activeListType}>
       <S.CardHeader activeType={activeListType}>
-        <button type="button">
-          {isFavorite ? (
+        <button type="button" onClick={handleToggleFavorites}>
+          {isFavorite(bot) ? (
             <TiStarFullOutline
               size={22}
               color={theme.colors.secondary.yellow}
@@ -56,7 +63,7 @@ const BotCard = ({ bot, isFavorite }: IBotCard) => {
             <S.Builder>{bot.type}</S.Builder>
           ) : (
             <S.CreatedAt>
-              Created at <time>{bot.created}</time>
+              Created at <time>{formatDate(bot.created)}</time>
             </S.CreatedAt>
           )}
         </S.CardBody>

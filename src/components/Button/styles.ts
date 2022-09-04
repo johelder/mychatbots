@@ -19,6 +19,15 @@ export const Container = styled.button`
       filter: brightness(0.9);
     }
 
+    &:disabled {
+      cursor: not-allowed;
+      background-color: ${theme.colors.texts.gray_400};
+
+      &:hover {
+        filter: none;
+      }
+    }
+
     span {
       font-family: ${theme.fonts.primary};
       font-size: 1.4rem;
