@@ -17,7 +17,11 @@ export const OrganizeListTypeButton = ({
 }: IOrganizeListTypeButtonProps) => {
   return (
     <S.Container isActive={isActive} {...rest}>
-      {activeType === 'blocks' ? <Blocks /> : <List />}
+      {activeType === 'blocks' ? (
+        <Blocks data-testid="blocks-icon" />
+      ) : (
+        <List data-testid="list-icon" />
+      )}
     </S.Container>
   );
 };
