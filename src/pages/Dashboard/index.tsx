@@ -7,8 +7,8 @@ import { IntelligentContacts } from '../../services/intelligentContacts';
 import { Button, OrganizeListTypeButton, BotCard } from '../../components';
 import { TBot } from '../../components/BotCard';
 
-import { useListType } from '../../hooks/listType';
-import { useFavorites } from '../../hooks/favorites';
+import { useListType } from '../../hooks/useListType';
+import { useFavorites } from '../../hooks/useFavorites';
 
 import { FiPlus as PlusIcon } from 'react-icons/fi';
 import { FaSquareFull as SquareIcon } from 'react-icons/fa';
@@ -18,6 +18,8 @@ import * as S from './styles';
 export interface IFormattedBot extends TBot {
   id: string;
 }
+
+const CURRENT_TAKE = 10;
 
 export const Dashboard = () => {
   const [bots, setBots] = useState<IFormattedBot[]>([]);
@@ -37,6 +39,7 @@ export const Dashboard = () => {
   const shouldLoadMoreDataRef = useRef(true);
 
   const { activeListType, setActiveListType } = useListType();
+
   const { favorites } = useFavorites();
 
   const handleOrderBy = (orderBy: string) => {
@@ -58,7 +61,7 @@ export const Dashboard = () => {
     const response = await IntelligentContacts.getBots({
       orderBy: currentOrderby,
       skip: currentSkip,
-      take: 10,
+      take: CURRENT_TAKE,
     });
 
     if (!response.ok) {
@@ -82,7 +85,7 @@ export const Dashboard = () => {
   useEffect(() => {
     const intersectionObserver = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) {
-        setCurrentSkip(prevSkip => prevSkip + 10);
+        setCurrentSkip(prevSkip => prevSkip + CURRENT_TAKE);
       }
     });
 
