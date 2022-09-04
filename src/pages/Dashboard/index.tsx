@@ -1,43 +1,102 @@
-import { Button, OrganizeListTypeButton, BotCardList } from '../../components';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import { v4 as uuidv4 } from 'uuid';
+
+import { IntelligentContacts } from '../../services/intelligentContacts';
+
+import { Button, OrganizeListTypeButton, BotCard } from '../../components';
+import { TBot } from '../../components/BotCard';
+
 import { useListType } from '../../hooks/listType';
+import { useFavorites } from '../../hooks/favorites';
 
 import { FiPlus as PlusIcon } from 'react-icons/fi';
+import { FaSquareFull as SquareIcon } from 'react-icons/fa';
 
 import * as S from './styles';
 
-const favoritesMock = [
-  {
-    id: '1',
-    avatar: 'https://github.com/johelder.png',
-    name: 'Johelder',
-    builder: 'Johelder Humberto',
-    createdAt: '11/09/2019',
-  },
-  {
-    id: '2',
-    avatar: 'https://github.com/johelder.png',
-    name: 'Johelder',
-    builder: 'Johelder Humberto',
-    createdAt: '11/09/2019',
-  },
-  {
-    id: '3',
-    avatar: 'https://github.com/johelder.png',
-    name: 'Johelder',
-    builder: 'Johelder Humberto',
-    createdAt: '11/09/2019',
-  },
-  {
-    id: '4',
-    avatar: 'https://github.com/johelder.png',
-    name: 'Johelder',
-    builder: 'Johelder Humberto',
-    createdAt: '11/09/2019',
-  },
-];
+export interface IFormattedBot extends TBot {
+  id: string;
+}
 
 export const Dashboard = () => {
+  const [bots, setBots] = useState<IFormattedBot[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentOrderby, setCurrentOrderBy] = useState('');
+  const [currentSkip, setCurrentSkip] = useState(0);
+
+  const filteredBots = useMemo(() => {
+    return searchTerm.length > 0
+      ? bots.filter(bot =>
+          bot.name.toLowerCase().includes(searchTerm.toLowerCase()),
+        )
+      : [];
+  }, [bots, searchTerm]);
+
+  const sentinelRef = useRef<HTMLDivElement>(null);
+  const shouldLoadMoreDataRef = useRef(true);
+
   const { activeListType, setActiveListType } = useListType();
+  const { favorites } = useFavorites();
+
+  const handleOrderBy = (orderBy: string) => {
+    if (orderBy !== currentOrderby) {
+      setBots([]);
+      setCurrentSkip(0);
+      setCurrentOrderBy(orderBy);
+      shouldLoadMoreDataRef.current = true;
+
+      return;
+    }
+  };
+
+  const getBots = useCallback(async () => {
+    if (!shouldLoadMoreDataRef.current) {
+      return;
+    }
+
+    const response = await IntelligentContacts.getBots({
+      orderBy: currentOrderby,
+      skip: currentSkip,
+      take: 10,
+    });
+
+    if (!response.ok) {
+      return;
+    }
+
+    if (!response.data.length) {
+      shouldLoadMoreDataRef.current = false;
+      return;
+    }
+
+    const formattedBots = response.data.map(bot => ({
+      id: uuidv4(),
+      ...bot,
+    }));
+
+    setBots(prevBots => [...prevBots, ...formattedBots]);
+    shouldLoadMoreDataRef.current = true;
+  }, [currentOrderby, currentSkip]);
+
+  useEffect(() => {
+    const intersectionObserver = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        setCurrentSkip(prevSkip => prevSkip + 10);
+      }
+    });
+
+    if (sentinelRef.current) {
+      intersectionObserver.observe(sentinelRef.current);
+    }
+
+    return () => intersectionObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    getBots();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentOrderby, currentSkip]);
 
   return (
     <S.Container>
@@ -45,45 +104,78 @@ export const Dashboard = () => {
         <h1>My chatbots</h1>
 
         <S.ActionsContainer>
-          <S.SearchInput placeholder="Search" />
+          <S.SearchInput
+            placeholder="Search"
+            onChange={e => setSearchTerm(e.target.value)}
+            value={searchTerm}
+          />
           <S.ButtonsContainer>
             <S.SortButtonsContainer>
-              <Button title="Order by name" />
-              <Button title="Order by creation" />
+              <Button
+                title="Order by name"
+                onClick={() => handleOrderBy('name')}
+                disabled={currentOrderby === 'name'}
+              />
+              <Button
+                title="Order by creation"
+                onClick={() => handleOrderBy('created')}
+                disabled={currentOrderby === 'created'}
+              />
             </S.SortButtonsContainer>
 
             <div>
               <OrganizeListTypeButton
-                type="blocks"
+                activeType="blocks"
                 isActive={activeListType === 'blocks'}
-                handleActive={() => setActiveListType('blocks')}
+                onClick={() => setActiveListType('blocks')}
               />
               <OrganizeListTypeButton
-                type="list"
+                activeType="list"
                 isActive={activeListType === 'list'}
-                handleActive={() => setActiveListType('list')}
+                onClick={() => setActiveListType('list')}
               />
             </div>
           </S.ButtonsContainer>
         </S.ActionsContainer>
       </S.SectionHeader>
 
-      {!!favoritesMock.length && (
+      {!!favorites.length && (
         <S.FavoritesSection>
           <h3>Favorites</h3>
-          <BotCardList botsList={favoritesMock} />
+          <S.BotCardList activeType={activeListType}>
+            {favorites.map(bot => (
+              <li key={bot.id}>
+                <BotCard bot={bot} />
+              </li>
+            ))}
+          </S.BotCardList>
 
           <S.Separator />
         </S.FavoritesSection>
       )}
 
-      <BotCardList botsList={favoritesMock} />
-      <BotCardList botsList={favoritesMock} />
+      {searchTerm.length > 0 ? (
+        <S.BotCardList activeType={activeListType}>
+          {filteredBots.map(bot => (
+            <li key={bot.id}>
+              <BotCard bot={bot} />
+            </li>
+          ))}
+        </S.BotCardList>
+      ) : (
+        <S.BotCardList activeType={activeListType}>
+          {bots.map(bot => (
+            <li key={bot.id}>
+              <BotCard bot={bot} />
+            </li>
+          ))}
+        </S.BotCardList>
+      )}
+
+      <div ref={sentinelRef} style={{ height: 100 }} />
 
       <S.AddBotButton>
-        <span>
-          <PlusIcon />
-        </span>
+        <span>{activeListType === 'list' ? <PlusIcon /> : <SquareIcon />}</span>
       </S.AddBotButton>
     </S.Container>
   );
