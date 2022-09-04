@@ -30,10 +30,14 @@ export const Container = styled.button`
 
     span {
       font-family: ${theme.fonts.primary};
-      font-size: 1.4rem;
+      font-size: 1.2rem;
       font-weight: 700;
 
       color: ${theme.colors.primary.light};
+    }
+
+    @media (${theme.breakpoints.md}) {
+      font-size: 1.6rem;
     }
 
     @media (${theme.breakpoints.lg}) {
