@@ -31,4 +31,13 @@ export const GlobalStyles = createGlobalStyle`
   ul {
     list-style: none;
   }
+
+  ::-webkit-scrollbar {
+    background-color: ${({ theme }) => theme.colors.primary.background};
+    width: .8rem;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.colors.secondary.light_blue};
+    border-radius: 2rem;
+  }
 `;
