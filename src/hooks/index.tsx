@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { FavoritesProvider } from './favorites';
 import { ListTypeContextProvider } from './listType';
 
 interface IAppProviderProps {
@@ -6,5 +7,9 @@ interface IAppProviderProps {
 }
 
 export const AppProvider = ({ children }: IAppProviderProps) => {
-  return <ListTypeContextProvider>{children}</ListTypeContextProvider>;
+  return (
+    <ListTypeContextProvider>
+      <FavoritesProvider>{children}</FavoritesProvider>
+    </ListTypeContextProvider>
+  );
 };
