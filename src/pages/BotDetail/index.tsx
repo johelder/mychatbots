@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { IntelligentContacts } from '../../services/intelligentContacts';
+import { formatDate } from '../../utils/formatDate';
 
 import { BotInfoCard, Button, Footer } from '../../components';
 import hero from '../../assets/hero.svg';
@@ -46,16 +47,6 @@ export const BotDetail = () => {
     return `(UTC - ${formattedHour}) ${timeZone}`;
   }, [bot]);
 
-  const formattedCreateAt = useMemo(() => {
-    if (!bot) return;
-
-    return new Intl.DateTimeFormat(bot.culture, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    }).format(new Date(bot.created));
-  }, [bot]);
-
   const getBotDetail = useCallback(async () => {
     if (!slug) {
       return;
@@ -87,7 +78,10 @@ export const BotDetail = () => {
 
         <S.CreationDateContainer>
           <span>
-            Created at <time>{formattedCreateAt}</time>
+            Created at{' '}
+            <time>
+              {bot?.created && formatDate(bot?.created, bot?.culture)}
+            </time>
           </span>
         </S.CreationDateContainer>
       </S.SectionHeader>
