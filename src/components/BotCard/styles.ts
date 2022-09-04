@@ -20,14 +20,14 @@ export const Container = styled.section<IBotCardProps>`
 
           width: 14.4rem;
           height: 19.2rem;
-          padding: 0.8rem 0 3.8rem;
+          padding-bottom: 3.8rem;
 
           box-shadow: 0px 2px 12px ${theme.colors.shadows.primary};
 
           @media (${theme.breakpoints.lg}) {
             width: 18.8rem;
 
-            padding: 0.8rem 2rem 4.2rem;
+            padding-bottom: 4.2rem;
           }
         `
       : css`
@@ -36,6 +36,10 @@ export const Container = styled.section<IBotCardProps>`
           align-items: center;
 
           background: ${theme.colors.primary.background};
+
+          @media (${theme.breakpoints.lg}) {
+            grid-template-columns: 5% 95%;
+          }
         `}
 `;
 
@@ -43,9 +47,16 @@ export const CardHeader = styled.header<IBotCardProps>`
   height: 100%;
   display: flex;
 
+  padding: 0.8rem 0 0.8rem;
+
   button {
     background: none;
     border: none;
+
+    svg {
+      font-size: 2.6rem;
+      color: ${({ theme }) => theme.colors.secondary.yellow};
+    }
   }
 
   ${({ theme, activeType }) =>
@@ -55,12 +66,23 @@ export const CardHeader = styled.header<IBotCardProps>`
 
           @media (${theme.breakpoints.lg}) {
             margin: 0;
+            padding-left: 0.8rem;
           }
         `
       : css`
           background: ${theme.colors.primary.background};
           justify-content: center;
         `}
+
+  ${({ theme }) => css`
+    @media (${theme.breakpoints.lg}) {
+      button {
+        svg {
+          font-size: 3.2rem;
+        }
+      }
+    } ;
+  `}
 `;
 
 export const CardBody = styled.div<IBotCardProps>`
@@ -83,7 +105,7 @@ export const CardBody = styled.div<IBotCardProps>`
     activeType === 'blocks'
       ? css`
           flex-direction: column;
-          padding: 0 2rem;
+          padding: 0 4rem;
 
           img {
             margin: 0.2rem 0 1.6rem;

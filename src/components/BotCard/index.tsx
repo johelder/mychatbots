@@ -45,14 +45,7 @@ const BotCard = ({ bot }: IBotCard) => {
           onClick={handleToggleFavorites}
           data-testid="favorite-button"
         >
-          {isFavorite(bot) ? (
-            <TiStarFullOutline
-              size={22}
-              color={theme.colors.secondary.yellow}
-            />
-          ) : (
-            <TiStarOutline size={22} color={theme.colors.secondary.yellow} />
-          )}
+          {isFavorite(bot) ? <TiStarFullOutline /> : <TiStarOutline />}
         </button>
       </S.CardHeader>
       <Link to={`/${formattedBotName}/details`} data-testid="bot-redirection">
