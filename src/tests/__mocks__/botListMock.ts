@@ -5,17 +5,17 @@ export const botListMock = [
     created: 'fake-date',
   },
   {
-    name: 'fake-name',
+    name: 'fake-name-two',
     type: 'fake-name',
     created: 'fake-date',
   },
   {
-    name: 'fake-name',
+    name: 'fake-name-three',
     type: 'fake-name',
     created: 'fake-date',
   },
   {
-    name: 'fake-name',
+    name: 'fake-name-four',
     type: 'fake-name',
     created: 'fake-date',
   },
