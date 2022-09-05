@@ -4,10 +4,12 @@ import { useParams } from 'react-router-dom';
 import { IntelligentContacts } from '../../services/intelligentContacts';
 import { formatDate } from '../../utils/formatDate';
 
-import { BotInfoCard, Button, Footer } from '../../components';
+import { BotInfoCard, Button, Footer, Error } from '../../components';
 import hero from '../../assets/hero.svg';
+import { TPageStatus } from '../Dashboard';
 
 import * as S from './styles';
+import { Loading } from '../../components/Loading';
 
 export interface IBotDetail {
   name: string;
@@ -29,6 +31,7 @@ export interface IBotDetail {
 }
 
 export const BotDetail = () => {
+  const [pageStatus, setPageStatus] = useState<TPageStatus>('idle');
   const [bot, setBot] = useState<IBotDetail>();
   const { slug } = useParams();
 
@@ -52,18 +55,32 @@ export const BotDetail = () => {
       return;
     }
 
+    setPageStatus('loading');
+
     const response = await IntelligentContacts.getBotDetail(slug);
 
     if (!response.ok) {
+      setPageStatus('error');
       return;
     }
 
     setBot(response.data);
+    setPageStatus('resolved');
   }, [slug]);
 
   useEffect(() => {
     getBotDetail();
   }, [getBotDetail]);
+
+  if (pageStatus === 'error') {
+    return (
+      <Error message="Failed to load bot details. You can try again later! 🤖 " />
+    );
+  }
+
+  if (pageStatus === 'loading') {
+    return <Loading />;
+  }
 
   return (
     <S.Container>
