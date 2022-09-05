@@ -1,7 +1,5 @@
 import { AppRoutes } from './routes/app.routes';
 
-import { Header } from './components';
-
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles, theme } from './styles';
 import { AppProvider } from './hooks';
@@ -11,7 +9,6 @@ function App() {
     <AppProvider>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <Header />
         <AppRoutes />
       </ThemeProvider>
     </AppProvider>
