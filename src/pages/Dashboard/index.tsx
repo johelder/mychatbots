@@ -4,7 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { IntelligentContacts } from '../../services/intelligentContacts';
 
-import { Button, OrganizeListTypeButton, BotCard } from '../../components';
+import {
+  Button,
+  OrganizeListTypeButton,
+  BotCard,
+  Error,
+  Loading,
+} from '../../components';
 import { TBot } from '../../components/BotCard';
 
 import { useListType } from '../../hooks/useListType';
@@ -109,11 +115,7 @@ export const Dashboard = () => {
   }, [currentOrderby, currentSkip]);
 
   if (pageStatus === 'error') {
-    return (
-      <S.ErrorContainer>
-        <span>Failed to load. You can try again later! 🤖 </span>
-      </S.ErrorContainer>
-    );
+    return <Error message="Failed to load. You can try again later! 🤖 " />;
   }
 
   return (
@@ -190,11 +192,7 @@ export const Dashboard = () => {
         </S.BotCardList>
       )}
 
-      {pageStatus === 'loading' && (
-        <S.LoadingContainer>
-          <S.LoadingIcon />
-        </S.LoadingContainer>
-      )}
+      {pageStatus === 'loading' && <Loading />}
 
       <div ref={sentinelRef} style={{ height: 100 }} />
 
